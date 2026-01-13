@@ -1,0 +1,202 @@
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--bg-surface);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.modern-table thead th {
+  padding: 16px;
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+  color: var(--text-inverse);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modern-table tbody tr {
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.modern-table tbody tr:nth-child(even) {
+  background: var(--bg-elevated);
+}
+
+.modern-table tbody tr:hover {
+  background: linear-gradient(90deg, var(--primary-50), var(--primary-100));
+}
+
+.modern-table td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+
+.modern-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cell-text {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.truncate {
+  max-width: 220px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.img-cell img {
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.2);
+}
+
+.action-col {
+  text-align: center;
+  white-space: nowrap;
+}
+
+.action-col .icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin: 0 4px;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.18);
+}
+
+.icon-btn i {
+  font-size: 16px;
+}
+
+.icon-btn.primary {
+  background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+  color: var(--text-inverse);
+}
+
+.icon-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(99, 102, 241, 0.45);
+}
+
+.icon-btn.danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: var(--text-inverse);
+}
+
+.icon-btn.danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(239, 68, 68, 0.45);
+}
+
+@media (max-width: 768px) {
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    background: var(--bg-surface);
+    margin-bottom: 18px;
+    padding: 14px;
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  }
+
+  tbody td {
+    padding: 12px 12px 12px 48%;
+    position: relative;
+    border-bottom: none;
+    text-align: left;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .action-col {
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 14px;
+  }
+}
+
+.tooltip-wrapper {
+  position: relative;
+  cursor: pointer;
+}
+
+.tooltip-wrapper::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: linear-gradient(135deg, var(--primary-700), var(--primary-800));
+  color: var(--text-inverse);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+  z-index: 20;
+}
+
+.tooltip-wrapper::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 2px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--primary-800) transparent transparent transparent;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tooltip-wrapper:hover::after,
+.tooltip-wrapper:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}

@@ -1,0 +1,167 @@
+<app-charts></app-charts>
+
+<div class="dashboard">
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h3>Users Overview</h3>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card total" (click)="toUser('/layout/users', '')">
+        <p>Total Users</p>
+        <h4>{{ users?.totalUsers }}</h4>
+      </div>
+
+      <div class="stat-card active" (click)="toUser('/layout/users', 'active')">
+        <p>Active Users</p>
+        <h4>{{ users?.activeUsers }}</h4>
+      </div>
+
+      <div
+        class="stat-card inactive"
+        (click)="toUser('/layout/users', 'inactive')"
+      >
+        <p>Inactive Users</p>
+        <h4>{{ users?.inactiveUsers }}</h4>
+      </div>
+
+      <div
+        class="stat-card deleted"
+        (click)="toUser('/layout/users', 'deleted')"
+      >
+        <p>Deleted Users</p>
+        <h4>{{ users?.deletedUsers }}</h4>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h3>Products Overview</h3>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card total" (click)="toProducts('/layout/products', '')">
+        <p>Total Products</p>
+        <h4>{{ products?.totalProducts }}</h4>
+      </div>
+
+      <div
+        class="stat-card active"
+        (click)="toProducts('/layout/products', 'active')"
+      >
+        <p>Active Products</p>
+        <h4>{{ products?.activeProducts }}</h4>
+      </div>
+
+      <div
+        class="stat-card inactive"
+        (click)="toProducts('/layout/products', 'inactive')"
+      >
+        <p>Inactive Products</p>
+        <h4>{{ products?.inactiveProducts }}</h4>
+      </div>
+
+      <div
+        class="stat-card deleted"
+        (click)="toProducts('/layout/products', 'deleted')"
+      >
+        <p>Deleted Products</p>
+        <h4>{{ products?.deletedProducts }}</h4>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h3>Categories Overview</h3>
+    </div>
+
+    <div class="stats-grid">
+      <div
+        class="stat-card total"
+        (click)="toCategories('/layout/category', '')"
+      >
+        <p>Total Categories</p>
+        <h4>{{ categories?.totalCategories }}</h4>
+      </div>
+
+      <div
+        class="stat-card active"
+        (click)="toCategories('/layout/category', 'active')"
+      >
+        <p>Active Categories</p>
+        <h4>{{ categories?.activeCategories }}</h4>
+      </div>
+
+      <div
+        class="stat-card inactive"
+        (click)="toCategories('/layout/category', 'inactive')"
+      >
+        <p>Inactive Categories</p>
+        <h4>{{ categories?.inactiveCategories }}</h4>
+      </div>
+
+      <div
+        class="stat-card deleted"
+        (click)="toCategories('/layout/category', 'deleted')"
+      >
+        <p>Deleted Categories</p>
+        <h4>{{ categories?.deletedCategories }}</h4>
+      </div>
+    </div>
+  </section>
+
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h3>Orders Overview</h3>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card total" (click)="toOrders('/layout/orders', '')">
+        <p>Total Orders</p>
+        <h4>{{ orders?.totalOrders }}</h4>
+      </div>
+
+      <div
+        class="stat-card pending"
+        (click)="toOrders('/layout/orders', 'pending')"
+      >
+        <p>Pending</p>
+        <h4>{{ orders?.pendingOrders }}</h4>
+      </div>
+
+      <div
+        class="stat-card processing"
+        (click)="toOrders('/layout/orders', 'processing')"
+      >
+        <p>Processing</p>
+        <h4>{{ orders?.processingOrders }}</h4>
+      </div>
+
+      <div
+        class="stat-card shipped"
+        (click)="toOrders('/layout/orders', 'shipped')"
+      >
+        <p>Shipped</p>
+        <h4>{{ orders?.shippedOrders }}</h4>
+      </div>
+
+      <div
+        class="stat-card delivered"
+        (click)="toOrders('/layout/orders', 'delivered')"
+      >
+        <p>Delivered</p>
+        <h4>{{ orders?.deliveredOrders }}</h4>
+      </div>
+
+      <div
+        class="stat-card cancelled"
+        (click)="toOrders('/layout/orders', 'cancelled')"
+      >
+        <p>Cancelled</p>
+        <h4>{{ orders?.cancelledOrders }}</h4>
+      </div>
+    </div>
+  </section>
+</div>

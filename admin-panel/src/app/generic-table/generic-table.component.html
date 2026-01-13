@@ -1,0 +1,58 @@
+<div class="table-wrapper">
+  <table class="modern-table">
+    <thead>
+      <tr>
+        <th *ngFor="let column of columns">{{ column.label }}</th>
+        <th class="action-col">Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let row of data">
+        <td *ngFor="let column of columns" [attr.data-label]="column.label">
+          @switch (column.type) { @case ('img') {
+          <div
+            class="img-cell tooltip-wrapper"
+            [attr.data-tooltip]="getValueByPath(row, column.key)"
+          >
+            <img [src]="getValueByPath(row, column.key)" />
+          </div>
+          } @case ('date') {
+          <span
+            class="cell-text tooltip-wrapper"
+            [attr.data-tooltip]="getValueByPath(row, column.key)"
+          >
+            {{ getValueByPath(row, column.key) | date : "mediumDate" }}
+          </span>
+          } @default {
+          <span
+            class="cell-text truncate tooltip-wrapper"
+            [attr.data-tooltip]="getValueByPath(row, column.key)"
+          >
+            {{ getValueByPath(row, column.key) }}
+          </span>
+          } }
+        </td>
+
+        <td class="action-col" data-label="Action">
+          <button
+            class="icon-btn danger tooltip-wrapper"
+            data-tooltip="Delete"
+            *ngIf="showDelete"
+            (click)="delete.emit(row)"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+
+          <button
+            class="icon-btn primary tooltip-wrapper"
+            data-tooltip="Edit"
+            (click)="edit.emit(row)"
+          >
+            <i class="bi bi-pencil"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,107 @@
+.profile-dialog {
+  background: var(--bg-surface);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25);
+  min-width: 360px;
+}
+
+.dialog-header {
+  padding: 22px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+}
+
+.dialog-body {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.form-group input {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border-light);
+  background: var(--bg-elevated);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all 0.25s ease;
+}
+
+.form-group input:hover {
+  background: #ffffff;
+}
+
+.form-group input:focus {
+  outline: none;
+
+  background: var(--bg-surface);
+  border-color: var(--primary-500);
+  box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.25);
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 22px 26px;
+  background: var(--bg-elevated);
+  border-top: 1px solid var(--border-light);
+}
+
+.dialog-footer button {
+  min-width: 120px;
+  height: 42px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.dialog-footer button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
+}
+
+.btn-primary {
+  border: none;
+  color: var(--text-inverse);
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--error-border);
+  color: var(--error-text);
+}
+
+@media (max-width: 600px) {
+  .profile-dialog {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .dialog-footer {
+    flex-direction: column;
+  }
+
+  .dialog-footer button {
+    width: 100%;
+  }
+}

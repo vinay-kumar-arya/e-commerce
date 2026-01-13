@@ -1,0 +1,83 @@
+<header class="header">
+  <div class="header-left">
+    <div class="logo">A</div>
+    <span class="app-name">Admin Panel</span>
+  </div>
+
+  <div class="header-right">
+    <span class="user-name">{{ adminName }}</span>
+    <button class="btn btn-logout" (click)="logout()">Logout</button>
+  </div>
+</header>
+
+<div class="app">
+  <aside class="sidebar" [class.open]="sidebarOpen">
+    <nav class="nav flex-column">
+      <a
+        routerLink="/layout/dashboard"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <svg viewBox="0 0 24 24">
+          <path d="M3 13h8V3H3v10Zm10 8h8V11h-8v10Z" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+
+      <a
+        routerLink="/layout/products"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <svg viewBox="0 0 24 24">
+          <path d="M21 7H3l9-4 9 4ZM3 9h18v12H3z" />
+        </svg>
+        <span>Products</span>
+      </a>
+
+      <a
+        routerLink="/layout/category"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <svg viewBox="0 0 24 24">
+          <path d="M4 4h7v7H4zm9 0h7v7h-7zM4 13h7v7H4zm9 4h7v3h-7z" />
+        </svg>
+        <span>Categories</span>
+      </a>
+
+      <a routerLink="/layout/orders" routerLinkActive="active" class="nav-item">
+        <svg viewBox="0 0 24 24">
+          <path d="M7 4h-2l-3 7v11h20V11l-3-7h-2" />
+        </svg>
+        <span>Orders</span>
+      </a>
+
+      <a routerLink="/layout/users" routerLinkActive="active" class="nav-item">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 12a5 5 0 1 0 0-10 5 5 0 0 0 0 10Zm0 2c-4 0-8 2-8 5v3h16v-3c0-3-4-5-8-5Z"
+          />
+        </svg>
+        <span>Users</span>
+      </a>
+
+      <a
+        routerLink="/layout/admin-profile"
+        routerLinkActive="active"
+        class="nav-item"
+      >
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M12 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 12c4 0 8 2 8 5v2H4v-2c0-3 4-5 8-5Z"
+          />
+        </svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </aside>
+
+  <main class="page">
+    <router-outlet></router-outlet>
+  </main>
+</div>

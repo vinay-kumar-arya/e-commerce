@@ -1,0 +1,117 @@
+<div class="user-page">
+  <div class="page-header">
+    <h1>Users</h1>
+  </div>
+
+  <div class="search-toggle" (click)="panelOpenState.set(!panelOpenState())">
+    <span>Search Filters</span>
+    <span class="chevron" [class.open]="panelOpenState()">⌄</span>
+  </div>
+
+  <!-- Filter Card -->
+  <div class="search-card" *ngIf="panelOpenState()">
+    <form (ngSubmit)="getUser()">
+      <div class="search-grid">
+        <div class="form-group">
+          <label>User ID</label>
+          <input
+            type="number"
+            [(ngModel)]="searchUser.userId"
+            name="userId"
+            placeholder="e.g. 101"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            type="text"
+            [(ngModel)]="searchUser.name"
+            name="name"
+            placeholder="John Doe"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            [(ngModel)]="searchUser.email"
+            name="email"
+            placeholder="john@example.com"
+          />
+        </div>
+
+        <div class="form-group dropdown-wrap">
+          <label>Gender</label>
+
+          <div class="dropdown-trigger">
+            {{ searchUser.gender || "All" }}
+          </div>
+
+          <ul class="dropdown">
+            <li (click)="searchUser.gender = ''">All</li>
+            <li (click)="searchUser.gender = 'Male'">Male</li>
+            <li (click)="searchUser.gender = 'Female'">Female</li>
+            <li (click)="searchUser.gender = 'Other'">Other</li>
+          </ul>
+        </div>
+
+        <div class="form-group dropdown-wrap">
+          <label>Status</label>
+
+          <div class="dropdown-trigger">
+            {{ searchUser.status || "All" }}
+          </div>
+
+          <ul class="dropdown">
+            <li (click)="searchUser.status = ''">All</li>
+            <li (click)="searchUser.status = 'active'">Active</li>
+            <li (click)="searchUser.status = 'inactive'">Inactive</li>
+            <li (click)="searchUser.status = 'deleted'">Deleted</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn-primary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="table-toolbar">
+    <button class="btn-primary" (click)="openAddModal()">Add Product</button>
+
+    <div class="column-dropdown">
+      <button class="column-btn">Visible Columns</button>
+
+      <div class="column-menu">
+        <label *ngFor="let col of usersColumn" class="checkbox-item">
+          <input
+            type="checkbox"
+            [checked]="isColumnSelected(col.key)"
+            (change)="onColumnToggle(col.key, $event)"
+          />
+          <span>{{ col.label }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card">
+    <app-generic-table
+      [data]="users?.Users"
+      [columns]="selectedColumns"
+      (edit)="openEditModal($event)"
+      (delete)="deleteUserAccount($event._id)"
+    ></app-generic-table>
+  </div>
+
+  <mat-paginator
+    [length]="totalUsers"
+    [pageSize]="10"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
+</div>

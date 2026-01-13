@@ -1,0 +1,105 @@
+<div class="products-page">
+  <div class="page-header">
+    <h1>Products</h1>
+  </div>
+
+  <div class="search-toggle" (click)="panelOpenState.set(!panelOpenState())">
+    <span>Search Filters</span>
+    <span class="chevron" [class.open]="panelOpenState()">⌄</span>
+  </div>
+
+  <div class="search-card" *ngIf="panelOpenState()">
+    <form (ngSubmit)="getProducts()">
+      <div class="search-grid">
+        <div class="form-group">
+          <label>Product ID</label>
+          <input
+            type="number"
+            [(ngModel)]="searchProduct.productId"
+            name="productId"
+            placeholder="Enter ID"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Product Name</label>
+          <input
+            type="text"
+            [(ngModel)]="searchProduct.name"
+            name="name"
+            placeholder="Search name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+          <input
+            type="text"
+            [(ngModel)]="searchProduct.category"
+            name="category"
+            placeholder="Category name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select [(ngModel)]="searchProduct.status" name="status">
+            <option value="">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="deleted">Deleted</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search-actions">
+        <button class="btn-primary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-toolbar">
+    <button class="btn-primary" (click)="openAddModal()">Add Product</button>
+
+    <div class="column-dropdown">
+      <button class="column-btn">Visible Columns</button>
+
+      <div class="column-menu">
+        <label *ngFor="let col of productColumn" class="checkbox-item">
+          <input
+            type="checkbox"
+            [checked]="isColumnSelected(col.key)"
+            (change)="onColumnToggle(col.key, $event)"
+          />
+
+          <span>{{ col.label }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <app-generic-table
+    [data]="products.products"
+    [columns]="selectedColumns"
+    (edit)="openEditModal($event._id, $event)"
+    (delete)="deleteProduct($event._id)"
+  ></app-generic-table>
+
+  <div class="pagination">
+    <button
+      [disabled]="currentPage === 1"
+      (click)="currentPage = currentPage - 1; getProducts()"
+    >
+      Prev
+    </button>
+
+    <span>Page {{ currentPage }}</span>
+
+    <button
+      [disabled]="products.products?.length < 10"
+      (click)="currentPage = currentPage + 1; getProducts()"
+    >
+      Next
+    </button>
+  </div>
+</div>

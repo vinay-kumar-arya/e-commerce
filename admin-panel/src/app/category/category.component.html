@@ -1,0 +1,135 @@
+<div class="categories-page">
+  <div class="page-header">
+    <h1>Categories</h1>
+  </div>
+
+  <div class="search-toggle" (click)="panelOpenState.set(!panelOpenState())">
+    <span>Search Filters</span>
+    <span class="chevron" [class.open]="panelOpenState()">⌄</span>
+  </div>
+
+  <div class="search-card" *ngIf="panelOpenState()">
+    <form (ngSubmit)="getCategory()">
+      <div class="search-grid">
+        <div class="form-group">
+          <label>Category ID</label>
+          <input
+            type="number"
+            [(ngModel)]="searchCategory.categoryId"
+            name="categoryId"
+            placeholder="Enter ID"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Category</label>
+
+          <div class="custom-select">
+            <div
+              class="select-trigger"
+              (click)="isCategoryOpen = !isCategoryOpen"
+            >
+              <span>
+                {{ searchCategory.category || "Select Category" }}
+              </span>
+              <span class="arrow">⌄</span>
+            </div>
+
+            <div class="select-panel" *ngIf="isCategoryOpen">
+              <input
+                type="text"
+                placeholder="Search category..."
+                [(ngModel)]="categorySearchText"
+                name="search"
+                class="select-search"
+              />
+
+              <div
+                class="select-option"
+                *ngFor="
+                  let category of categories
+                    | categoryFilter : categorySearchText
+                "
+                (click)="
+                  searchCategory.category = category.name;
+                  isCategoryOpen = false
+                "
+              >
+                {{ category.name }}
+              </div>
+
+              <div
+                class="select-empty"
+                *ngIf="
+                  (categories | categoryFilter : categorySearchText).length ===
+                  0
+                "
+              >
+                No results found
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select [(ngModel)]="searchCategory.status" name="status">
+            <option value="">All</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="deleted">Deleted</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="search-actions">
+        <button class="btn-primary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-toolbar">
+    <button class="btn-primary" (click)="openAddModal()">Add Category</button>
+
+    <div class="column-dropdown">
+      <button class="column-btn">Visible Columns</button>
+
+      <div class="column-menu">
+        <label *ngFor="let col of categoriesColumn" class="checkbox-item">
+          <input
+            type="checkbox"
+            [checked]="isColumnSelected(col.key)"
+            (change)="onColumnToggle(col.key, $event)"
+          />
+
+          <span>{{ col.label }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <app-generic-table
+    [data]="categories"
+    [columns]="selectedColumns"
+    (edit)="openEditModal($event._id, $event)"
+    (delete)="deleteCategory($event._id)"
+  ></app-generic-table>
+
+  <div class="pagination">
+    <button
+      [disabled]="currentPage === 1"
+      (click)="currentPage = currentPage - 1; getCategory()"
+    >
+      Prev
+    </button>
+
+    <span>Page {{ currentPage }}</span>
+
+    <button
+      [disabled]="categories?.length < 10"
+      (click)="currentPage = currentPage + 1; getCategory()"
+    >
+      Next
+    </button>
+  </div>
+</div>

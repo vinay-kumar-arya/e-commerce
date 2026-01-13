@@ -1,0 +1,81 @@
+<div class="chart-wrapper">
+  <div class="chart-header">
+    <div class="chart-controls">
+      <div class="button-group">
+        <button
+          class="chip"
+          [class.active]="chartData === 'user'"
+          (click)="changeChartData('user')"
+        >
+          Users
+        </button>
+        <button
+          class="chip"
+          [class.active]="chartData === 'product'"
+          (click)="changeChartData('product')"
+        >
+          Products
+        </button>
+        <button
+          class="chip"
+          [class.active]="chartData === 'category'"
+          (click)="changeChartData('category')"
+        >
+          Category
+        </button>
+        <button
+          class="chip"
+          [class.active]="chartData === 'order'"
+          (click)="changeChartData('order')"
+        >
+          Orders
+        </button>
+      </div>
+
+      <div class="button-group">
+        <button
+          class="chip outline"
+          [class.active]="chartType === 'column'"
+          (click)="changeChartType('column')"
+        >
+          Bar
+        </button>
+        <button
+          class="chip outline"
+          [class.active]="chartType === 'line'"
+          (click)="changeChartType('line')"
+        >
+          Line
+        </button>
+        <button
+          class="chip outline"
+          [class.active]="chartType === 'area'"
+          (click)="changeChartType('area')"
+        >
+          Area
+        </button>
+      </div>
+    </div>
+
+    <div class="filter-panel">
+      <mat-form-field appearance="outline">
+        <mat-label>View</mat-label>
+        <mat-select [(ngModel)]="selected" (selectionChange)="loadChart()">
+          <mat-option value="day">Daily</mat-option>
+          <mat-option value="weekly">Weekly</mat-option>
+          <mat-option value="monthly">Monthly</mat-option>
+          <mat-option value="yearly">Yearly</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="chart-surface">
+    <highcharts-chart
+      [Highcharts]="Highcharts"
+      [options]="chartOptions"
+      [update]="updateFlag"
+      style="width: 100%; height: 360px; display: block"
+    ></highcharts-chart>
+  </div>
+</div>

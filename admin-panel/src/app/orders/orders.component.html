@@ -1,0 +1,78 @@
+<div class="products-page">
+  <div class="page-header">
+    <h1>Order Details</h1>
+  </div>
+
+  <div class="search-toggle" (click)="panelOpenState.set(!panelOpenState())">
+    <span>Search Filters</span>
+    <span class="chevron" [class.open]="panelOpenState()">⌄</span>
+  </div>
+
+  <!-- Filter Panel -->
+  <div class="search-card" *ngIf="panelOpenState()">
+    <form (ngSubmit)="getOrders()">
+      <div class="search-grid">
+        <div class="form-group">
+          <label>Order ID</label>
+          <input
+            type="number"
+            [(ngModel)]="searchOrder.orderId"
+            name="orderId"
+            placeholder="e.g. 101"
+          />
+        </div>
+
+        <!-- Payment Method Dropdown -->
+        <div class="form-group">
+          <label>Payment Method</label>
+          <div class="custom-select">
+            <div class="selected" (click)="toggleDropdown('payment')">
+              {{ searchOrder.paymentMethod || "Select payment method" }}
+            </div>
+            <ul *ngIf="openDropdown === 'payment'">
+              <li (click)="selectOption('paymentMethod', 'COD')">COD</li>
+              <li (click)="selectOption('paymentMethod', 'NETBANKING')">
+                NETBANKING
+              </li>
+              <li (click)="selectOption('paymentMethod', 'UPI')">UPI</li>
+              <li (click)="selectOption('paymentMethod', 'CARD')">CARD</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Status Dropdown -->
+        <div class="form-group">
+          <label>Order Status</label>
+          <div class="custom-select">
+            <div class="selected" (click)="toggleDropdown('status')">
+              {{ searchOrder.status || "Select order status" }}
+            </div>
+            <ul *ngIf="openDropdown === 'status'">
+              <li (click)="selectOption('status', 'pending')">Pending</li>
+              <li (click)="selectOption('status', 'processing')">Processing</li>
+              <li (click)="selectOption('status', 'shipped')">Shipped</li>
+              <li (click)="selectOption('status', 'delivered')">Delivered</li>
+              <li (click)="selectOption('status', 'cancelled')">Cancelled</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="search-actions">
+        <button class="btn-primary" type="submit">Search</button>
+      </div>
+    </form>
+  </div>
+
+  <app-generic-table
+    [data]="orders"
+    [columns]="ordersColumn"
+    [showDelete]="false"
+    (edit)="openEditModal($event._id, $event)"
+  ></app-generic-table>
+
+  <mat-paginator
+    [length]="totalOrders"
+    [pageSize]="10"
+    (page)="onPageChange($event)"
+  ></mat-paginator>
+</div>

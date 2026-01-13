@@ -1,0 +1,71 @@
+<div class="auth-wrapper">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+        <div class="auth-card">
+          <div class="auth-header text-center">
+            <h2>Welcome back</h2>
+            <p>Sign in to your admin panel</p>
+          </div>
+
+          <form [formGroup]="LoginForm" (ngSubmit)="submit()">
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control auth-input"
+                formControlName="email"
+                placeholder="you@example.com"
+              />
+              <div
+                class="error-text"
+                *ngIf="
+                  LoginForm.get('email')?.invalid &&
+                  LoginForm.get('email')?.touched
+                "
+              >
+                {{ emailError }}
+              </div>
+            </div>
+
+            <div class="mb-2 position-relative">
+              <label class="form-label">Password</label>
+              <input
+                [type]="hide ? 'password' : 'text'"
+                class="form-control auth-input"
+                formControlName="password"
+                placeholder="••••••••"
+              />
+              <button type="button" class="eye-btn" (click)="hide = !hide">
+                <i class="bi" [ngClass]="hide ? 'bi-eye-slash' : 'bi-eye'"></i>
+              </button>
+              <div
+                class="error-text"
+                *ngIf="
+                  LoginForm.get('password')?.invalid &&
+                  LoginForm.get('password')?.touched
+                "
+              >
+                {{ passwordError }}
+              </div>
+            </div>
+
+            <div class="text-end mb-4">
+              <a class="forgot-link" (click)="forgotPassword()"
+                >Forgot password?</a
+              >
+            </div>
+
+            <button
+              type="submit"
+              class="btn auth-btn w-100"
+              [disabled]="LoginForm.invalid"
+            >
+              Log in
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

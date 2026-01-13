@@ -1,0 +1,121 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  padding: 24px 0;
+}
+
+.dashboard-section {
+  background: var(--bg-elevated);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+}
+
+.section-header {
+  margin-bottom: 20px;
+}
+
+.section-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 22px 24px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.08);
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 6px;
+  border-radius: 18px 0 0 18px;
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  transition: background 0.3s ease;
+  z-index: 0;
+}
+
+.stat-card p {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  position: relative;
+  z-index: 1;
+}
+
+.stat-card h4 {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--text-primary);
+  position: relative;
+  z-index: 1;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.15);
+}
+
+.stat-card:hover::after {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.06));
+}
+
+.stat-card.total::before {
+  background: linear-gradient(180deg, var(--primary-500), var(--primary-700));
+}
+
+.stat-card.active::before {
+  background: linear-gradient(180deg, var(--success-bg), var(--success-text));
+}
+
+.stat-card.inactive::before {
+  background: linear-gradient(180deg, var(--warning-bg), var(--warning-text));
+}
+
+.stat-card.deleted::before,
+.stat-card.cancelled::before {
+  background: linear-gradient(180deg, var(--error-bg), var(--error-text));
+}
+
+.stat-card.processing::before {
+  background: linear-gradient(180deg, var(--info-bg), var(--info-text));
+}
+
+.stat-card.shipped::before {
+  background: linear-gradient(180deg, var(--primary-600), var(--primary-800));
+}
+
+.stat-card.delivered::before {
+  background: linear-gradient(180deg, var(--success-bg), var(--success-text));
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-section {
+    padding: 20px;
+  }
+}

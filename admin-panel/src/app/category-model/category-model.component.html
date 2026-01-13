@@ -1,0 +1,44 @@
+<div class="category-dialog">
+  <div class="dialog-header">
+    {{ data._id ? "Edit Category" : "Add New Category" }}
+  </div>
+
+  <div class="dialog-body">
+    <form class="form-grid">
+      <div class="form-group full">
+        <label>Category Name</label>
+        <input
+          type="text"
+          [(ngModel)]="data.name"
+          name="name"
+          placeholder="Enter category name"
+        />
+      </div>
+
+      <div class="form-group full">
+        <label>Category Description</label>
+        <textarea
+          rows="1"
+          [(ngModel)]="data.description"
+          name="description"
+          placeholder="Enter category description"
+        ></textarea>
+      </div>
+
+      <div class="form-group full" *ngIf="data._id">
+        <label>Status</label>
+        <select [(ngModel)]="data.status" name="status">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+    </form>
+  </div>
+
+  <div class="dialog-footer">
+    <button class="btn-outline" type="button" (click)="onCancel()">
+      Cancel
+    </button>
+    <button class="btn-primary" type="button" (click)="onSave()">Submit</button>
+  </div>
+</div>
