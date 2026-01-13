@@ -1,7 +1,7 @@
 import express from "express";
 import { verifyToken, hasRole } from "../utils/authMiddleware.js";
 import { Signup } from "../controllers/User/Auth/signUp.js";
-import { Login } from "../controllers/User/Auth/login.js";
+import { Login } from "./../controllers/User/Auth/logIn.js";
 import { forgotPassword } from "../controllers/User/Auth/forgotPassword.js";
 import { resetPasswordWithOTP } from "../controllers/User/Auth/resetPasswordwithOTP.js";
 import { addToCart } from "../controllers/User/Cart/addCart.js";
