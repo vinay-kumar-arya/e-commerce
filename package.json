@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
     "server": "nodemon server.js",
-    "admin": "cd angular-admin-panel && ng serve",
+    "admin": "cd admin-panel && ng serve",
     "client": "cd client && npm run dev",
     "dev": "concurrently \"npm run server\" \"npm run admin\" \"npm run client\""
   },
