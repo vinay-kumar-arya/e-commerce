@@ -71,16 +71,8 @@ export default function ProductsPage({
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
 
-    const selectedCategoryObj = categories.find(
-      (cat) => cat.name === selectedCategory
-    );
-
-    const selectedCategoryId = selectedCategoryObj?._id;
-
     const matchesCategory =
-      selectedCategory === "All" ||
-      product.category === selectedCategoryId ||
-      product.category?._id === selectedCategoryId;
+      selectedCategory === "All" || product.category?.name === selectedCategory;
 
     return matchesSearch && matchesCategory;
   });
