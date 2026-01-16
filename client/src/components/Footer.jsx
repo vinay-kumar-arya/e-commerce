@@ -7,7 +7,7 @@ const Footer = () => {
         <p className="mb-0">
           © {new Date().getFullYear()} MyShop. All rights reserved.
         </p>
-        <small>Made by Comhard</small>
+        <small>Made by Vinay Arya</small>
       </div>
     </footer>
   );
