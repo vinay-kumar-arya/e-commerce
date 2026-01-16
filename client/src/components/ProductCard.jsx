@@ -18,9 +18,9 @@ const ProductCard = ({
 
   useEffect(() => {
     if (!loggedInUser || !token) return;
-
+    const api_url = import.meta.env.VITE_REACT_APP_API;
     axios
-      .get("http://localhost:8000/api/user/cart", {
+      .get(`${api_url}/api/user/cart`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -40,8 +40,9 @@ const ProductCard = ({
 
     try {
       setLoading(true);
+      const api_url = import.meta.env.VITE_REACT_APP_API;
       await axios.post(
-        "http://localhost:8000/api/user/cart/add",
+        `${api_url}/api/user/cart/add`,
         {
           productId: product._id,
           quantity: 1,

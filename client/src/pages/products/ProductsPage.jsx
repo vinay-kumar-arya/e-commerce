@@ -25,14 +25,15 @@ export default function ProductsPage({
     const fetchCategories = async () => {
       try {
         const token = localStorage.getItem("token");
+        const api_url = import.meta.env.VITE_REACT_APP_API;
 
-        const res = await axios.get("http://localhost:8000/api/category/get", {
+        const res = await axios.get(`${api_url}/api/category/get`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setCategories([{ name: "All", _id: null }, ...res.data]);
+        setCategories([{ name: "All", _id: null }, ...res.data.data]);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       }
@@ -45,9 +46,10 @@ export default function ProductsPage({
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
+      const api_url = import.meta.env.VITE_REACT_APP_API;
       try {
         const res = await axios.get(
-          `http://localhost:8000/api/product/get?limit=${PRODUCTS_PER_PAGE}&page=${currentPage}`
+          `${api_url}/api/product/get?limit=${PRODUCTS_PER_PAGE}&page=${currentPage}`
         );
         setProducts(res.data.products);
         setTotalProducts(res.data.totalCount || res.data.total || 0);
