@@ -30,7 +30,7 @@
               (click)="isCategoryOpen = !isCategoryOpen"
             >
               <span>
-                {{ searchCategory.category || "Select Category" }}
+                {{ searchCategory.name || "Select Category" }}
               </span>
               <span class="arrow">⌄</span>
             </div>
@@ -51,8 +51,7 @@
                     | categoryFilter : categorySearchText
                 "
                 (click)="
-                  searchCategory.category = category.name;
-                  isCategoryOpen = false
+                  searchCategory.name = category.name; isCategoryOpen = false
                 "
               >
                 {{ category.name }}
