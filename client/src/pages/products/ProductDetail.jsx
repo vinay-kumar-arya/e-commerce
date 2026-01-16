@@ -11,13 +11,11 @@ const ProductDetail = ({ loggedInUser }) => {
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
-
+  const api_url = import.meta.env.VITE_REACT_APP_API;
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:8000/api/product/get/${productId}`
-        );
+        const res = await axios.get(`${api_url}/api/product/get/${productId}`);
         setProduct(res.data);
       } catch (err) {
         console.error("Failed to fetch product:", err);
@@ -34,7 +32,7 @@ const ProductDetail = ({ loggedInUser }) => {
         const token = localStorage.getItem("token");
         if (!token || !productId) return;
 
-        const res = await axios.get("http://localhost:8000/api/user/cart", {
+        const res = await axios.get(`${api_url}/api/user/cart`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -64,7 +62,7 @@ const ProductDetail = ({ loggedInUser }) => {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:8000/api/user/cart/add",
+        `${api_url}/api/user/cart/add`,
         {
           productId,
           quantity: 1,

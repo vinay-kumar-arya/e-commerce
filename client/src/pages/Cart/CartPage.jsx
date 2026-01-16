@@ -6,11 +6,12 @@ export default function CartPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const api_url = import.meta.env.VITE_REACT_APP_API;
 
   const fetchCart = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("http://localhost:8000/api/user/cart", {
+      const res = await axios.get(`${api_url}/api/user/cart`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -39,14 +40,11 @@ export default function CartPage() {
 
   const handleRemoveItem = async (productId) => {
     try {
-      await axios.delete(
-        `http://localhost:8000/api/user/cart/product/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      await axios.delete(`${api_url}/api/user/cart/product/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       fetchCart();
       toast.success("Item removed from cart");
     } catch (err) {
@@ -66,7 +64,7 @@ export default function CartPage() {
 
       // Delete the existing item
       await axios.delete(
-        `http://localhost:8000/api/user/cart/product/${item.productId._id}`,
+        `${api_url}/api/user/cart/product/${item.productId._id}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -76,7 +74,7 @@ export default function CartPage() {
 
       // Re-add with updated quantity
       await axios.post(
-        "http://localhost:8000/api/user/cart/add",
+        `${api_url}/api/user/cart/add`,
         {
           productId: item.productId._id,
           quantity: newQty,
