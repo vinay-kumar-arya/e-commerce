@@ -1,0 +1,44 @@
+:root {
+  /* ========== Brand Colors ========== */
+  --primary: #2563eb; /* Blue – trust, actions (Buy, Login) */
+  --primary-hover: #1d4ed8;
+  --secondary: #22c55e; /* Green – success, offers */
+  --accent: #f97316; /* Orange – highlights, discounts */
+
+  /* ========== Backgrounds ========== */
+  --bg-main: #f8fafc; /* App background */
+  --bg-surface: #ffffff; /* Cards, modals */
+  --bg-muted: #f1f5f9; /* Inputs, tables */
+  --bg-dark: #0f172a; /* Navbar / footer */
+  --bg-dark-surface: #020617;
+
+  /* ========== Text Colors ========== */
+  --text-primary: #0f172a; /* Main text */
+  --text-secondary: #475569; /* Muted text */
+  --text-muted: #64748b;
+  --text-inverse: #ffffff;
+
+  /* ========== Borders & Lines ========== */
+  --border-color: #e2e8f0;
+  --border-focus: #2563eb;
+
+  /* ========== Status Colors ========== */
+  --success: #16a34a;
+  --warning: #facc15;
+  --error: #dc2626;
+  --info: #0ea5e9;
+
+  /* ========== Shadows ========== */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 15px 30px rgba(15, 23, 42, 0.15);
+
+  /* ========== Radius ========== */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* ========== Transitions ========== */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.3s ease;
+}
