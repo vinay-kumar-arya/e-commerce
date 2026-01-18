@@ -17,7 +17,8 @@ export default function LoginPromptModal({ show, onClose, onLoginSuccess }) {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8000/api/user/login", {
+      const api = import.meta.env.VITE_REACT_APP_API;
+      const res = await fetch(`${api}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

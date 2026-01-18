@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import "./CartPage.css";
 
 export default function CartPage() {
   const [cart, setCart] = useState(null);
@@ -125,82 +126,67 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container py-5">
-      <h2 className="mb-4">Your Shopping Cart</h2>
+    <div className="cart-page">
+      <div className="cart-container">
+        {/* LEFT - ITEMS */}
+        <div className="cart-items">
+          <h2>Your Cart</h2>
 
-      <div className="table-responsive">
-        <table className="table table-bordered align-middle">
-          <thead className="table-light">
-            <tr>
-              <th>Image</th>
-              <th>Product</th>
-              <th>Price (₹)</th>
-              <th>Quantity</th>
-              <th>Total (₹)</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[...cart.products]
-              .sort((a, b) => a.productId.name.localeCompare(b.productId.name))
-              .map((item) => (
-                <tr key={item.productId._id}>
-                  <td>
-                    <img
-                      src={item.productId.imageUrl.replace(
-                        "localhost",
-                        "localhost"
-                      )}
-                      alt={item.productId.name}
-                      style={{
-                        width: "50px",
-                        height: "50px",
-                        objectFit: "cover",
-                      }}
-                    />
-                  </td>
-                  <td>{item.productId.name}</td>
-                  <td>{item.productId.price.toFixed(2)}</td>
-                  <td className="d-flex gap-2 align-items-center">
-                    <button
-                      className="btn btn-sm btn-outline-secondary"
-                      onClick={() => handleChangeQuantity(item, -1)}
-                    >
-                      -
-                    </button>
-                    <span>{item.quantity}</span>
-                    <button
-                      className="btn btn-sm btn-outline-primary"
-                      onClick={() => handleChangeQuantity(item, 1)}
-                    >
-                      +
-                    </button>
-                  </td>
-                  <td>{item.totalPrice.toFixed(2)}</td>
-                  <td>
-                    <button
-                      className="btn btn-sm btn-danger"
-                      onClick={() => handleRemoveItem(item.productId._id)}
-                    >
-                      <i
-                        className="bi bi-trash-fill text-white"
-                        style={{ fontSize: "1rem" }}
-                      ></i>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-      </div>
+          {cart.products.map((item) => (
+            <div className="cart-item" key={item.productId._id}>
+              <img src={item.productId.imageUrl} alt={item.productId.name} />
 
-      <div className="d-flex justify-content-between align-items-center mt-4">
-        <h5>
-          <strong>Total: ₹{cart.grandTotalPrice.toFixed(2)}</strong>
-        </h5>
-        <button className="btn btn-success" onClick={handleCheckout}>
-          Proceed to Checkout
-        </button>
+              <div className="item-info">
+                <h4>{item.productId.name}</h4>
+                <p className="price">₹{item.productId.price}</p>
+
+                <div className="qty-control">
+                  <button onClick={() => handleChangeQuantity(item, -1)}>
+                    -
+                  </button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => handleChangeQuantity(item, 1)}>
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div className="item-actions">
+                <span className="total">₹{item.totalPrice}</span>
+                <button
+                  className="remove"
+                  onClick={() => handleRemoveItem(item.productId._id)}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* RIGHT - SUMMARY */}
+        <div className="cart-summary">
+          <h3>Order Summary</h3>
+
+          <div className="summary-row">
+            <span>Subtotal</span>
+            <span>₹{cart.grandTotalPrice}</span>
+          </div>
+
+          <div className="summary-row">
+            <span>Shipping</span>
+            <span>Free</span>
+          </div>
+
+          <div className="summary-total">
+            <span>Total</span>
+            <span>₹{cart.grandTotalPrice}</span>
+          </div>
+
+          <button className="checkout-btn" onClick={handleCheckout}>
+            Proceed to Checkout
+          </button>
+        </div>
       </div>
     </div>
   );
