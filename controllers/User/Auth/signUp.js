@@ -21,7 +21,7 @@ export const Signup = async (req, res) => {
       dobDate = new Date(dob);
       dobDate.setUTCHours(0, 0, 0, 0);
     }
-    const profileImagePath = "/uploads/defaultuser/icons8-male-user-30.png";
+    const profileImagePath = "/uploads/defaultuser/defaultuser.png";
 
     // // 🖼️ File upload required
     // if (!req.files || !req.files.profileImage) {

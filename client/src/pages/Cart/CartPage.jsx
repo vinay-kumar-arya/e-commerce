@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./CartPage.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CartPage() {
   const [cart, setCart] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const api_url = import.meta.env.VITE_REACT_APP_API;
+  const navigate = useNavigate();
 
   const fetchCart = async () => {
     setLoading(true);
@@ -70,7 +72,7 @@ export default function CartPage() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       // Re-add with updated quantity
@@ -84,12 +86,12 @@ export default function CartPage() {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-        }
+        },
       );
 
       fetchCart();
       toast.info(
-        `Quantity has been ${delta > 0 ? "increased" : "decreased"} by 1`
+        `Quantity has been ${delta > 0 ? "increased" : "decreased"} by 1`,
       );
     } catch (err) {
       console.error("Error updating quantity:", err);
@@ -99,7 +101,7 @@ export default function CartPage() {
   };
 
   const handleCheckout = () => {
-    alert("Proceeding to checkout...");
+    navigate("/checkout");
   };
 
   if (loading) return <p className="text-center mt-5">Loading cart...</p>;

@@ -43,7 +43,7 @@ export const Login = async (req, res) => {
         gender: user.gender,
       },
       process.env.JWT_USERSECRET,
-      { expiresIn: "1000000y" }
+      { expiresIn: "1000000y" },
     );
 
     const userCart = await Cart.findOne({ user: user._id }).populate({

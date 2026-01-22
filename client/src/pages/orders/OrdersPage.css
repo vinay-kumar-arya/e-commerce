@@ -1,0 +1,77 @@
+.orders-list {
+  margin-top: 1rem;
+}
+
+.order-product-image {
+  border: 1px solid #dee2e6;
+}
+
+.order-summary {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+.order-progress-track {
+  width: 100%;
+  height: 10px;
+  background: #e9ecef;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.order-progress-fill {
+  height: 100%;
+  background: #0d6efd; /* bootstrap primary */
+  border-radius: 999px;
+  transition: width 250ms ease;
+}
+
+.order-progress-fill.is-cancelled {
+  background: #dc3545; /* bootstrap danger */
+}
+
+.order-progress-steps {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.order-progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.order-progress-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #adb5bd;
+}
+
+.order-progress-dot.is-active {
+  background: #0d6efd;
+}
+
+.order-progress-dot.is-cancelled {
+  background: #dc3545;
+}
+
+.order-progress-label {
+  font-size: 12px;
+  color: #6c757d;
+}
+
+@media (max-width: 768px) {
+  .order-summary {
+    margin-top: 1rem;
+  }
+
+  .order-progress-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

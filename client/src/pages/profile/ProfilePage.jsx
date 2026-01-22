@@ -1,19 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "./ProfilePage.css";
+import axios from "axios";
 
 const ProfilePage = ({ loggedInUser }) => {
   const [showModal, setShowModal] = useState(false);
+  const [showAddressModal, setShowAddressModal] = useState(false);
   const [emailForReset, setEmailForReset] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [receivedOtp, setReceivedOtp] = useState("");
   const [fieldsEnabled, setFieldsEnabled] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [addressList, setAddressList] = useState([]);
+  const [editingAddress, setEditingAddress] = useState(null);
+
+  const [form, setForm] = useState({
+    street: "",
+    city: "",
+    state: "",
+    postalCode: "",
+    country: "",
+  });
+
+  const api = import.meta.env.VITE_REACT_APP_API;
 
   useEffect(() => {
+    getAddress();
     const t = setTimeout(() => setLoading(false), 400);
     return () => clearTimeout(t);
   }, []);
+
+  const getAddress = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(`${api}/api/user/getAddress`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      setAddressList(res.data.addressList || []);
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to fetch address");
+    }
+  };
 
   if (!loggedInUser) {
     return (
@@ -40,7 +70,73 @@ const ProfilePage = ({ loggedInUser }) => {
     setNewPassword("");
   };
 
-  const api = import.meta.env.VITE_REACT_APP_API;
+  const openAddressModal = (addr = null) => {
+    setEditingAddress(addr);
+
+    if (addr) {
+      setForm({
+        street: addr.street,
+        city: addr.city,
+        state: addr.state,
+        postalCode: addr.postalCode,
+        country: addr.country,
+      });
+    } else {
+      setForm({
+        street: "",
+        city: "",
+        state: "",
+        postalCode: "",
+        country: "",
+      });
+    }
+
+    setShowAddressModal(true);
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const saveAddress = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      if (editingAddress) {
+        // UPDATE
+        await axios.put(
+          `${api}/api/user/updateAddress`,
+          {
+            addressId: editingAddress.addressId,
+            ...form,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+
+        toast.success("Address updated");
+      } else {
+        // CREATE
+        await axios.post(
+          `${api}/api/user/createAddress`,
+          {
+            addresses: [form],
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+
+        toast.success("Address added");
+      }
+
+      setShowAddressModal(false);
+      getAddress();
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Address save failed");
+    }
+  };
 
   const handleOtpSend = async () => {
     try {
@@ -95,7 +191,7 @@ const ProfilePage = ({ loggedInUser }) => {
     <div className="profile-page">
       <div className="profile-card">
         <div className="profile-avatar">
-          <img src="https://avatar.iran.liara.run/public/" alt="avatar" />
+          <img src={loggedInUser.profileImage} alt="avatar" />
         </div>
 
         <h2 className="profile-name">{loggedInUser.name}</h2>
@@ -130,6 +226,36 @@ const ProfilePage = ({ loggedInUser }) => {
           <div className="profile-row">
             <span>Role</span>
             <span>{loggedInUser.role || "User"}</span>
+          </div>
+          <div className="profile-row">
+            <span>Address</span>
+            <div className="address-list">
+              {addressList.length === 0 && (
+                <span className="muted">No address added</span>
+              )}
+
+              {addressList.map((addr) => (
+                <div key={addr.addressId} className="address-item">
+                  <div className="address-text">
+                    {addr.street}, {addr.city}, {addr.state} {addr.postalCode}
+                  </div>
+                  <button
+                    className="address-edit"
+                    onClick={() => openAddressModal(addr)}
+                  >
+                    ✎
+                  </button>
+                </div>
+              ))}
+              {addressList && addressList.length < 10 && (
+                <button
+                  className="add-address-btn"
+                  onClick={() => openAddressModal()}
+                >
+                  + Add New Address
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -167,6 +293,38 @@ const ProfilePage = ({ loggedInUser }) => {
             <div className="profile-modal-footer">
               <button onClick={() => setShowModal(false)}>Cancel</button>
               <button onClick={handlePasswordReset}>Update</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showAddressModal && (
+        <div className="profile-modal-backdrop">
+          <div className="profile-modal">
+            <div className="profile-modal-header">
+              <h4>{editingAddress ? "Update Address" : "Add Address"}</h4>
+              <button onClick={() => setShowAddressModal(false)}>×</button>
+            </div>
+
+            <div className="profile-modal-body">
+              {["street", "city", "state", "postalCode", "country"].map(
+                (field) => (
+                  <input
+                    key={field}
+                    name={field}
+                    placeholder={field}
+                    value={form[field]}
+                    onChange={handleChange}
+                  />
+                ),
+              )}
+            </div>
+
+            <div className="profile-modal-footer">
+              <button onClick={() => setShowAddressModal(false)}>Cancel</button>
+              <button onClick={saveAddress}>
+                {editingAddress ? "Update" : "Add"}
+              </button>
             </div>
           </div>
         </div>

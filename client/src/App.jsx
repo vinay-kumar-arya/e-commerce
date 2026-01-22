@@ -13,10 +13,12 @@ import ProductsPage from "./pages/products/ProductsPage";
 import CartPage from "./pages/Cart/CartPage";
 import ProfilePage from "./pages/profile/ProfilePage";
 import ProductDetail from "./pages/products/ProductDetail";
+import OrdersPage from "./pages/orders/OrdersPage";
 
 // toast
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import CheckoutPage from "./pages/Checkout/CheckoutPage";
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -98,6 +100,22 @@ function App() {
         <Route
           path="/product/:productId"
           element={<ProductDetail loggedInUser={loggedInUser} />}
+        />
+        <Route
+          path="/checkout"
+          element={
+            <PrivateRoute loggedInUser={loggedInUser}>
+              <CheckoutPage loggedInUser={loggedInUser} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <PrivateRoute loggedInUser={loggedInUser}>
+              <OrdersPage />
+            </PrivateRoute>
+          }
         />
       </Routes>
       {/* ✅ RENDER THE MODAL HERE */}

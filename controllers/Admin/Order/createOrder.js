@@ -19,7 +19,7 @@ export const createOrder = async (req, res) => {
     }
 
     const selectedAddress = addressDoc.addresses.find(
-      (addr) => addr.addressId === addressId
+      (addr) => addr.addressId === addressId,
     );
 
     if (!selectedAddress) {
@@ -38,7 +38,7 @@ export const createOrder = async (req, res) => {
     const products = await Product.find({ _id: { $in: productIds } });
 
     const productMap = Object.fromEntries(
-      products.map((product) => [product._id.toString(), product])
+      products.map((product) => [product._id.toString(), product]),
     );
 
     const orderProducts = [];
@@ -79,7 +79,7 @@ export const createOrder = async (req, res) => {
 
       await Product.updateOne(
         { _id: product._id },
-        { $inc: { stock: -item.quantity } }
+        { $inc: { stock: -item.quantity } },
       );
     }
 

@@ -9,6 +9,7 @@ import categoryRouter from "./routes/categoryRoute.js";
 import uploadsRouter from "./routes/carouselRoutes.js";
 import dashboardRouter from "./routes/dashboardRoute.js";
 import graphRouter from "./routes/graphRoute.js";
+import paymentRoute from "./routes/paymentRoute.js";
 import cors from "cors";
 import path from "path";
 import fileUpload from "express-fileupload";
@@ -23,9 +24,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(fileUpload());
 
-app.use(
-  cors()
-);
+app.use(cors());
 
 // app.use(
 //   cors({
@@ -43,6 +42,7 @@ app.use("/api/category", categoryRouter);
 app.use("/api/uploads", uploadsRouter);
 app.use("/api/dashboard", dashboardRouter);
 app.use("/api/graph", graphRouter);
+app.use("/api/payment", paymentRoute);
 
 const port = process.env.PORT || 3000;
 connectDB();
