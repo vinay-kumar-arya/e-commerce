@@ -7,12 +7,23 @@
             "config": {
                 "distDir": "admin-panel/dist/admin-panel"
             }
+        },
+        {
+            "src": "client/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "client/dist"
+            }
         }
     ],
-    "routes": [
+    "rewrites": [
         {
-            "src": "/(.*)",
-            "dest": "admin-panel/dist/admin-panel/index.html"
+            "source": "/admin/(.*)",
+            "destination": "/admin-panel/dist/admin-panel/index.html"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/client/dist/index.html"
         }
     ]
 }
