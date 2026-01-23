@@ -46,7 +46,7 @@ export default function ProductsPage({
 
       try {
         const res = await axios.get(
-          `${api_url}/api/product/get?limit=${PRODUCTS_PER_PAGE}&page=${currentPage}`
+          `${api_url}/api/product/get?limit=${PRODUCTS_PER_PAGE}&page=${currentPage}`,
         );
         setProducts(res.data.products);
         setTotalProducts(res.data.totalCount || 0);
@@ -61,10 +61,10 @@ export default function ProductsPage({
     fetchProducts();
   }, [currentPage, setProducts]);
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = (products || []).filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+      .includes((searchTerm || "").toLowerCase());
 
     const matchesCategory =
       selectedCategory === "All" || product.category?.name === selectedCategory;
