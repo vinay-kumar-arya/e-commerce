@@ -22,6 +22,18 @@
   color: var(--text-muted);
 }
 
+.products-header {
+  margin-bottom: 20px;
+}
+
+.products-header h1 {
+  font-size: 34px;
+}
+
+.products-header p {
+  font-size: 15px;
+}
+
 .filter-panel {
   position: sticky;
   top: 90px;
@@ -94,6 +106,19 @@
 
 .pagination-wrapper button:disabled {
   opacity: 0.5;
+}
+.carousel {
+  margin: 24px 0 48px;
+}
+
+.carousel .carousel-wrapper {
+  padding: 0;
+  max-width: 100%;
+}
+
+.carousel .carousel-image {
+  height: 420px;
+  border-radius: 20px;
 }
 
 /* ------------------------------------------------------------- */

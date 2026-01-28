@@ -54,6 +54,7 @@ import { ChartsComponent } from './charts/charts.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 
 import { DatePipe } from '@angular/common';
+import { CarouselComponent } from './carousel/carousel.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { DatePipe } from '@angular/common';
     OrderModelComponent,
     DashboardComponent,
     ChartsComponent,
+    CarouselComponent,
   ],
   imports: [
     BrowserModule,

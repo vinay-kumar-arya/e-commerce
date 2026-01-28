@@ -3,6 +3,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import loadRazorpay from "../../utils/loadRazorpay";
+import "./CheckoutPage.css";
 
 export default function CheckoutPage() {
   const [cart, setCart] = useState(null);
@@ -37,6 +38,12 @@ export default function CheckoutPage() {
         headers: { Authorization: `Bearer ${token}` },
       });
       setAddressList(res.data.addressList || []);
+      res.data.addressList.find((item) => {
+        console.log(item);
+        if (item.isDefault) {
+          setSelectedAddressId(item.addressId);
+        }
+      });
     } catch {
       toast.error("Failed to load address");
     }
@@ -49,7 +56,7 @@ export default function CheckoutPage() {
     }
 
     try {
-      const res = await axios.post(
+      await axios.post(
         `${apiUrl}/api/order/create`,
         {
           addressId: selectedAddressId,
@@ -66,7 +73,6 @@ export default function CheckoutPage() {
         navigate("/orders");
       }, 1500);
     } catch (err) {
-      console.error(err);
       toast.error(err.response?.data?.message || "Failed to place order");
     }
   };
@@ -99,7 +105,7 @@ export default function CheckoutPage() {
         key: data.key,
         amount: data.amount,
         currency: data.currency,
-        name: "MyShop",
+        name: "ShopNexa",
         description: "Order Payment",
         order_id: data.orderId,
         handler: async (response) => {
@@ -154,117 +160,92 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="container mt-5" style={{ maxWidth: "900px" }}>
-      <h2 className="mb-4">Checkout</h2>
-
-      <div className="card p-4 mb-4">
-        <h5 className="mb-3">Select Address</h5>
-
-        {addressList.length === 0 && (
-          <p className="text-muted">No address found</p>
-        )}
-
-        {addressList.map((addr) => (
-          <div className="form-check mb-2" key={addr.addressId}>
-            <input
-              type="radio"
-              className="form-check-input"
-              name="address"
-              checked={selectedAddressId === addr.addressId}
-              onChange={() => setSelectedAddressId(addr.addressId)}
-            />
-            <label className="form-check-label">
-              {addr.fullAddress ||
-                `${addr.street}, ${addr.city}, ${addr.state}, ${addr.postalCode}`}
-            </label>
-          </div>
-        ))}
+    <div className="checkout-page">
+      <div className="checkout-header">
+        <h1>Secure Checkout</h1>
+        <p>Complete your purchase in just one step</p>
       </div>
 
-      <div className="card p-4 mb-4">
-        <h5 className="mb-3">Order Summary</h5>
+      <div className="checkout-grid">
+        <div className="checkout-left">
+          <div className="checkout-card">
+            <h3>Delivery Address</h3>
 
-        {cart.products.map((item) => (
-          <div
-            key={item.productId._id}
-            className="d-flex justify-content-between mb-2"
-          >
-            <span>
-              {item.productId.name} × {item.quantity}
-            </span>
-            <span>₹{item.totalPrice}</span>
-          </div>
-        ))}
+            {addressList.length === 0 && (
+              <div className="empty-state">No saved address found</div>
+            )}
 
-        <hr />
-        <div className="mb-3">
-          <h6 className="mb-2">Payment Method</h6>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              id="pmCOD"
-              value="COD"
-              checked={paymentMethod === "COD"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <label className="form-check-label" htmlFor="pmCOD">
-              Cash on Delivery (COD)
-            </label>
+            {addressList.map((addr) => (
+              <label
+                key={addr.addressId}
+                className={`address-tile ${
+                  selectedAddressId === addr.addressId ? "active" : ""
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="address"
+                  checked={selectedAddressId === addr.addressId}
+                  onChange={() => setSelectedAddressId(addr.addressId)}
+                />
+                <div>
+                  {addr.fullAddress ||
+                    `${addr.street}, ${addr.city}, ${addr.state}, ${addr.postalCode}`}{" "}
+                  <i>
+                    <sup>{addr.isDefault ? "Default address" : ""}</sup>
+                  </i>
+                </div>
+              </label>
+            ))}
           </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              id="pmCard"
-              value="CARD"
-              checked={paymentMethod === "CARD"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <label className="form-check-label" htmlFor="pmCard">
-              Card
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              id="pmUpi"
-              value="UPI"
-              checked={paymentMethod === "UPI"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <label className="form-check-label" htmlFor="pmUpi">
-              UPI
-            </label>
-          </div>
-          <div className="form-check">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="paymentMethod"
-              id="pmNetbanking"
-              value="NETBANKING"
-              checked={paymentMethod === "NETBANKING"}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-            />
-            <label className="form-check-label" htmlFor="pmNetbanking">
-              Netbanking
-            </label>
+
+          <div className="checkout-card">
+            <h3>Payment Method</h3>
+
+            <div className="payment-grid">
+              {["COD", "CARD", "UPI", "NETBANKING"].map((method) => (
+                <button
+                  key={method}
+                  className={`payment-pill ${
+                    paymentMethod === method ? "active" : ""
+                  }`}
+                  onClick={() => setPaymentMethod(method)}
+                >
+                  {method}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-        <h5 className="d-flex justify-content-between mb-0">
-          <span>Total</span>
-          <span>₹{cart.grandTotalPrice}</span>
-        </h5>
-      </div>
 
-      <button className="btn btn-primary w-100" onClick={handlePayment}>
-        {paymentMethod === "COD" ? "Place Order" : "Pay with Razorpay"}
-      </button>
+        <div className="checkout-right">
+          <div className="summary-card">
+            <h3>Order Summary</h3>
+
+            <div className="summary-items">
+              {cart.products.map((item) => (
+                <div key={item.productId._id} className="summary-row">
+                  <span>
+                    {item.productId.name} × {item.quantity}
+                  </span>
+                  <span>₹{item.totalPrice}</span>
+                </div>
+              ))}
+            </div>
+
+            <div className="summary-total">
+              <span>Total</span>
+              <span>₹{cart.grandTotalPrice}</span>
+            </div>
+
+            <button className="checkout-btn" onClick={handlePayment}>
+              {paymentMethod === "COD" ? "Place Order" : "Pay Securely"}
+            </button>
+
+            <p className="secure-note">SSL encrypted • 100% secure payments</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

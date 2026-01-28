@@ -14,7 +14,7 @@ export const getCarouselImages = (req, res) => {
     }
 
     const imageFiles = files.filter((file) =>
-      /\.(jpg|jpeg|png|gif|webp)$/i.test(file)
+      /\.(jpg|jpeg|png|gif|webp)$/i.test(file),
     );
 
     const serverHost =
@@ -22,8 +22,7 @@ export const getCarouselImages = (req, res) => {
     const serverPort = process.env.PORT || 3000;
 
     const imageUrls = imageFiles.map(
-      (file) =>
-        `${req.protocol}://${serverHost}:${serverPort}/uploads/Carousel/${file}`
+      (file) => `${serverHost}/uploads/Carousel/${file}`,
     );
 
     res.json({ images: imageUrls });

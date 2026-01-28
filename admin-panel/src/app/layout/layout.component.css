@@ -70,8 +70,8 @@ body {
 }
 
 .btn-logout:hover {
-  background: var(--primary-500);
-  color: var(--text-inverse);
+  background: var(--error-text);
+  color: white;
 }
 
 /* APP LAYOUT */

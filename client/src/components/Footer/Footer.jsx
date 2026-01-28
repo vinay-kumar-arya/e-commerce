@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="shop-footer">
       <div className="container">
         <div className="footer-top">
-          <div className="footer-brand">MyShop</div>
+          <div className="footer-brand">ShopNexa</div>
 
           <nav className="footer-links">
             <a href="#">About</a>
@@ -17,7 +17,9 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <span>© {new Date().getFullYear()} MyShop. All rights reserved.</span>
+          <span>
+            © {new Date().getFullYear()} ShopNexa. All rights reserved.
+          </span>
           <span className="footer-author">Made by Vinay Arya</span>
         </div>
       </div>

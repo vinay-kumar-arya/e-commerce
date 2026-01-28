@@ -17,7 +17,7 @@ const ProductCard = ({ product, loggedInUser, setShowLoginModal }) => {
 
   const discountPercent = hasDiscount
     ? Math.round(
-        ((product.originalPrice - product.price) / product.originalPrice) * 100
+        ((product.originalPrice - product.price) / product.originalPrice) * 100,
       )
     : 0;
 
@@ -31,7 +31,7 @@ const ProductCard = ({ product, loggedInUser, setShowLoginModal }) => {
       })
       .then((res) => {
         const item = res.data.products.find(
-          (p) => p.productId._id === product._id
+          (p) => p.productId._id === product._id,
         );
         if (item) setQuantity(Number(item.quantity));
       })
@@ -53,7 +53,7 @@ const ProductCard = ({ product, loggedInUser, setShowLoginModal }) => {
       await axios.post(
         `${api_url}/api/user/cart/add`,
         { productId: product._id, quantity: 1 },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: `Bearer ${token}` } },
       );
 
       setQuantity(1);
@@ -81,7 +81,12 @@ const ProductCard = ({ product, loggedInUser, setShowLoginModal }) => {
       </div>
 
       <div className="product-info">
-        <h3 title={product.name}>{product.name}</h3>
+        <h3 title={product.name}>
+          {product.name.replace(
+            /\w\S*/g,
+            (w) => w[0].toUpperCase() + w.slice(1).toLowerCase(),
+          )}
+        </h3>
 
         <div className="price-row">
           <span className="price">₹{product.price}</span>

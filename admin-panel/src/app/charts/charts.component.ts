@@ -16,6 +16,11 @@ export class ChartsComponent implements OnInit {
 
   Highcharts: typeof Highcharts = Highcharts;
   updateFlag = false;
+  private chartRef?: Highcharts.Chart;
+
+  chartCallback: Highcharts.ChartCallbackFunction = (chart) => {
+    this.chartRef = chart;
+  };
 
   chartOptions: Highcharts.Options = {
     chart: { type: 'column' },
@@ -23,7 +28,7 @@ export class ChartsComponent implements OnInit {
     legend: { enabled: true },
     credits: { enabled: false },
     tooltip: { shared: true },
-    xAxis: { type: 'category' },
+    xAxis: { categories: [] },
     yAxis: { title: { text: 'Count' } },
     plotOptions: {
       column: {
@@ -38,7 +43,7 @@ export class ChartsComponent implements OnInit {
 
   constructor(
     private chartService: ChartDataService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
   ) {}
 
   ngOnInit(): void {
@@ -55,27 +60,36 @@ export class ChartsComponent implements OnInit {
     this.loadChart();
   }
 
-  dateFormat(timestamp: string) {
-    const date = new Date(timestamp);
+  dateFormat(timestamp: string | number) {
+    const ms =
+      typeof timestamp === 'number'
+        ? timestamp
+        : // handle numeric strings like "1700000000000"
+          /^\d+$/.test(timestamp)
+          ? Number(timestamp)
+          : timestamp;
+
+    const date = new Date(ms as any);
     const endDate = new Date(date);
     endDate.setDate(date.getDate() + 6);
 
     if (this.selected === 'day')
-      return this.datePipe.transform(timestamp, 'mediumDate');
+      return this.datePipe.transform(date, 'mediumDate');
     if (this.selected === 'weekly')
       return `${this.datePipe.transform(
-        timestamp,
-        'dd MMM'
+        date,
+        'dd MMM',
       )}-${this.datePipe.transform(
         endDate,
-        'dd MMM'
-      )} ${this.datePipe.transform(timestamp, 'yyyy')}`;
+        'dd MMM',
+      )} ${this.datePipe.transform(date, 'yyyy')}`;
     if (this.selected === 'monthly')
-      return this.datePipe.transform(timestamp, 'MMMM yy');
-    return this.datePipe.transform(timestamp, 'yyyy');
+      return this.datePipe.transform(date, 'MMMM yy');
+    return this.datePipe.transform(date, 'yyyy');
   }
 
   loadChart() {
+    this.updateFlag = false;
     const meta =
       this.chartData === 'order'
         ? [
@@ -98,23 +112,23 @@ export class ChartsComponent implements OnInit {
     this.chartService.chartData(this.chartData).subscribe((res) => {
       const raw = res.data[this.selected] ?? [];
 
+      const categories = raw.map((r: any) => this.dateFormat(r.period) ?? '');
       const series = meta.map((m) => ({
         type: this.chartType,
         name: m.name,
-        data: raw.map((r: any) => ({
-          name: this.dateFormat(r.period),
-          y: r[m.key],
-        })),
+        data: raw.map((r: any) => Number(r?.[m.key] ?? 0)),
       }));
 
       this.chartOptions = {
         ...this.chartOptions,
         chart: { type: this.chartType },
         title: { text: `${this.chartData}s Statistics Over Date` },
+        xAxis: { categories },
         series,
       };
 
-      this.updateFlag = true;
+      this.chartRef?.update(this.chartOptions as any, true, true);
+      setTimeout(() => (this.updateFlag = true), 0);
     });
   }
 }

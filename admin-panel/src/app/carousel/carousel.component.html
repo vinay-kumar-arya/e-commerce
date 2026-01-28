@@ -1,0 +1,26 @@
+<div class="carousel-manager card">
+  <div class="header">
+    <h2>Carousel Manager</h2>
+    <p>Upload and manage homepage carousel banners</p>
+  </div>
+
+  <div class="upload-box">
+    <label class="file-drop">
+      <input type="file" multiple (change)="onFileSelect($event)" />
+      <div class="file-content">
+        <span class="title">Select Images</span>
+        <span class="subtitle">PNG, JPG, WEBP up to 5 images</span>
+      </div>
+    </label>
+
+    <button class="btn-primary upload-btn" (click)="upload()">
+      Upload Images
+    </button>
+  </div>
+
+  <div class="preview-grid" *ngIf="images.length">
+    <div class="image-card" *ngFor="let img of images">
+      <img [src]="img" width="100%" />
+    </div>
+  </div>
+</div>

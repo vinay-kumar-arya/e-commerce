@@ -11,6 +11,7 @@ import { UsersComponent } from './users/users.component';
 import { LoginGuard } from '../core/guards/login.guard';
 import { AdminProfileComponent } from './admin-profile/admin-profile.component';
 import { CategoryComponent } from './category/category.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 const routes: Routes = [
   { path: '', canActivate: [LoginGuard], component: LoginComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'users', component: UsersComponent },
       { path: 'admin-profile', component: AdminProfileComponent },
       { path: 'category', component: CategoryComponent },
+      { path: 'carousel', component: CarouselComponent },
     ],
     component: LayoutComponent,
   },

@@ -5,6 +5,7 @@ import ProductCard from "../../components/Product-Card/ProductCard";
 import "./ProductsPage.css";
 import { FiLayers } from "react-icons/fi";
 import ProductCardSkeleton from "../../components/Product-Card/ProductCardSkeleton";
+import ImageCarousel from "../../components/Carousel/ImageCarousel";
 
 export default function ProductsPage({
   products,
@@ -85,7 +86,9 @@ export default function ProductsPage({
           <h1>Featured Products</h1>
           <p>Discover our curated collection</p>
         </div>
-
+        <div className="carousel">
+          <ImageCarousel />
+        </div>
         <div className="row">
           <aside className="col-xl-2 col-lg-3">
             <div className="filter-panel">

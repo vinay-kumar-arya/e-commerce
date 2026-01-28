@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import { getCarouselImages } from "../controllers/User/Carousel/getCarouselImages.js";
-import { uploadCarouselImages } from "../controllers/User/Carousel/uploadCarouselImage.js";
+import { uploadCarouselImages } from "../controllers/Admin/Carousel/uploadCarouselImage.js";
 
 const router = express.Router();
 

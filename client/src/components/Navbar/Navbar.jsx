@@ -37,7 +37,11 @@ export default function Navbar({
         {/* Left */}
         <div className="nav-left">
           <button className="brand" onClick={() => navigate("/")}>
-            MyShop
+            <img
+              src="images/shopnexa.png"
+              alt="shopnexa"
+              className="brand-logo"
+            />
           </button>
         </div>
 

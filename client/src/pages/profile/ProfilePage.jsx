@@ -20,6 +20,7 @@ const ProfilePage = ({ loggedInUser }) => {
     state: "",
     postalCode: "",
     country: "",
+    isDefault: false,
   });
 
   const api = import.meta.env.VITE_REACT_APP_API;
@@ -75,11 +76,12 @@ const ProfilePage = ({ loggedInUser }) => {
 
     if (addr) {
       setForm({
-        street: addr.street,
-        city: addr.city,
-        state: addr.state,
-        postalCode: addr.postalCode,
-        country: addr.country,
+        street: addr.street || "",
+        city: addr.city || "",
+        state: addr.state || "",
+        postalCode: addr.postalCode || "",
+        country: addr.country || "",
+        isDefault: !!addr.isDefault,
       });
     } else {
       setForm({
@@ -88,6 +90,7 @@ const ProfilePage = ({ loggedInUser }) => {
         state: "",
         postalCode: "",
         country: "",
+        isDefault: false,
       });
     }
 
@@ -187,6 +190,25 @@ const ProfilePage = ({ loggedInUser }) => {
     }
   };
 
+  const setDefaultAddress = async (addressId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios.patch(
+        `${api}/api/user/setDefaultAddress/${addressId}`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
+
+      toast.success("Default address updated");
+      getAddress();
+    } catch (err) {
+      toast.error("Failed to update default address");
+    }
+  };
+
   return (
     <div className="profile-page">
       <div className="profile-card">
@@ -235,19 +257,38 @@ const ProfilePage = ({ loggedInUser }) => {
               )}
 
               {addressList.map((addr) => (
-                <div key={addr.addressId} className="address-item">
+                <div
+                  key={addr.addressId}
+                  className={`address-item ${addr.isDefault ? "default" : ""}`}
+                >
                   <div className="address-text">
                     {addr.street}, {addr.city}, {addr.state} {addr.postalCode}
+                    {addr.isDefault && (
+                      <span className="default-badge">Default</span>
+                    )}
                   </div>
-                  <button
-                    className="address-edit"
-                    onClick={() => openAddressModal(addr)}
-                  >
-                    ✎
-                  </button>
+
+                  <div style={{ display: "flex", gap: "6px" }}>
+                    {!addr.isDefault && (
+                      <button
+                        className="address-edit"
+                        onClick={() => setDefaultAddress(addr.addressId)}
+                      >
+                        Make Default
+                      </button>
+                    )}
+
+                    <button
+                      className="address-edit"
+                      onClick={() => openAddressModal(addr)}
+                    >
+                      ✎
+                    </button>
+                  </div>
                 </div>
               ))}
-              {addressList && addressList.length < 10 && (
+
+              {addressList && addressList.length < 2 && (
                 <button
                   className="add-address-btn"
                   onClick={() => openAddressModal()}
@@ -318,6 +359,17 @@ const ProfilePage = ({ loggedInUser }) => {
                   />
                 ),
               )}
+              <div className="default-address-toggle">
+                <input
+                  type="checkbox"
+                  id="isDefault"
+                  checked={form.isDefault}
+                  onChange={(e) =>
+                    setForm({ ...form, isDefault: e.target.checked })
+                  }
+                />
+                <label htmlFor="isDefault">Set as default address</label>
+              </div>
             </div>
 
             <div className="profile-modal-footer">

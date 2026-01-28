@@ -14,8 +14,7 @@ export class DashboardComponent implements OnInit {
   orders: any;
   constructor(
     private router: Router,
-    private dashboardService: DashboardService
-
+    private dashboardService: DashboardService,
   ) {}
   ngOnInit() {
     this.getUsers();
@@ -52,7 +51,6 @@ export class DashboardComponent implements OnInit {
   getOrders() {
     this.dashboardService.getOrders().subscribe({
       next: (res) => {
-        console.log(res);
         this.orders = res.data;
       },
       error: (err) => {
